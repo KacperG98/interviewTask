@@ -13,14 +13,21 @@ public class Post {
 
     private String body;
 
+    private PostStatus postStatus;
+
     public Post() {
     }
 
-    public Post(int userId, int id, String title, String body) {
+    public Post(int userId, int id, String title, String body, PostStatus postStatus) {
         this.userId = userId;
         this.id = id;
         this.title = title;
         this.body = body;
+        this.postStatus = postStatus;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public void setUserId(int userId) {
@@ -49,5 +56,13 @@ public class Post {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public PostStatus getPostStatus() {
+        return postStatus;
+    }
+
+    public void setPostStatus(PostStatus postStatus) {
+        this.postStatus = postStatus;
     }
 }

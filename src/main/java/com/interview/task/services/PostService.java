@@ -1,14 +1,14 @@
 package com.interview.task.services;
 
 import com.interview.task.models.Post;
+import com.interview.task.models.PostStatus;
 import com.interview.task.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.awt.desktop.OpenFilesEvent;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 public class PostService {
@@ -35,10 +35,14 @@ public class PostService {
         Post p = op.get();
         p.setTitle(post.getTitle());
         p.setBody(post.getBody());
+        p.setPostStatus(PostStatus.EDITED);
         return postRepository.save(p);
     }
 
     public void deletePost(int id){
-        postRepository.deleteById(id);
+        Optional<Post> oPost = postRepository.findById(id);
+        Post post = oPost.get();
+        post.setPostStatus(PostStatus.DELETED);
+        postRepository.save(post);
     }
 }
