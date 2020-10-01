@@ -1,6 +1,7 @@
 package com.interview.task.services;
 
 import com.interview.task.models.Post;
+import com.interview.task.models.PostStatus;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -21,14 +22,17 @@ class PostSourceAPITest {
 
     @Test
     void getDataTest() {
+        //given
         List<Post> posts = List.of(
-                new Post(2,2,"t","tdd"),
-                new Post(2,3,"b","bdd"),
-                new Post(2,4,"c","clean code")
+                new Post(2,2,"t","tdd", PostStatus.NORMAL),
+                new Post(2,3,"b","bdd", PostStatus.NORMAL),
+                new Post(2,4,"c","clean code", PostStatus.NORMAL)
         );
         given(postSourceAPI.getData())
                 .willReturn(posts);
+        //when
         List<Post> result = postSourceAPI.getData();
+        //then
         Assert.assertEquals(result, posts);
     }
 }
