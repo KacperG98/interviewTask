@@ -1,37 +1,58 @@
 package com.interview.task.services;
 
+import com.interview.task.DTO.PostDto;
 import com.interview.task.models.Post;
-import com.interview.task.models.PostStatus;
-import org.hamcrest.Matchers;
 import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Matchers;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 class PostSourceAPITest {
 
-    @Spy
     PostSourceAPI postSourceAPI;
 
+    RestTemplate restTemplate = mock(RestTemplate.class);
+
+    @BeforeEach
+    public void init(){
+        postSourceAPI =  new PostSourceAPI("test", restTemplate);
+    }
+
     @Test
-    void getDataTest() {
+    public void getDataTest() {
         //given
-        List<Post> posts = List.of(
-                new Post(2,2,"t","tdd", PostStatus.NORMAL),
-                new Post(2,3,"b","bdd", PostStatus.NORMAL),
-                new Post(2,4,"c","clean code", PostStatus.NORMAL)
+        List<PostDto> posts = List.of(
+                new PostDto(new Post(2,2,"t","tdd")),
+                new PostDto(new Post(2,3,"b","bdd")),
+                new PostDto(new Post(2,4,"c","clean code"))
         );
-        given(postSourceAPI.getData())
-                .willReturn(posts);
+        ResponseEntity res = mock(ResponseEntity.class);
+
+
+        when(restTemplate.exchange( anyString(),
+                any(HttpMethod.class),
+                Matchers.<HttpEntity<?>> any(),
+                Matchers.<Class<String>> any())).thenReturn(res);
+
+
+        //given(restTemplate.exchange(anyString(), eq(HttpMethod.GET), eq(HttpEntity.EMPTY), any(Class.class))).willReturn(res);
+        given(res.getBody()).willReturn(posts);
         //when
-        List<Post> result = postSourceAPI.getData();
+        List<PostDto> result = postSourceAPI.getData();
         //then
         Assert.assertEquals(result, posts);
     }

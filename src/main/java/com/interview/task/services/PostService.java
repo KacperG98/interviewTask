@@ -4,11 +4,11 @@ import com.interview.task.models.Post;
 import com.interview.task.models.PostStatus;
 import com.interview.task.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -20,7 +20,11 @@ public class PostService {
     }
 
     public List<Post> getPosts(){
-        return postRepository.findAll();
+        List<Post> filteredPost = postRepository.findAll().stream()
+                .filter(p ->
+                    p.getPostStatus() != PostStatus.DELETED
+                ).collect(Collectors.toList());
+        return filteredPost;
     }
 
     public Post savePost(Post post){
