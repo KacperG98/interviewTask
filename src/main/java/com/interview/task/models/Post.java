@@ -18,12 +18,12 @@ public class Post {
     public Post() {
     }
 
-    public Post(int userId, int id, String title, String body, PostStatus postStatus) {
+    public Post(int userId, int id, String title, String body) {
         this.userId = userId;
         this.id = id;
         this.title = title;
         this.body = body;
-        this.postStatus = postStatus;
+        this.postStatus = PostStatus.NORMAL;
     }
 
     public int getUserId() {
