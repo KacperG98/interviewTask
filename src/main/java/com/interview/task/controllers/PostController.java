@@ -1,11 +1,8 @@
-package com.interview.task.conntrollers;
+package com.interview.task.controllers;
 
-import com.interview.task.DTO.PostDto;
-import com.interview.task.models.Post;
 import com.interview.task.services.PostService;
-import com.interview.task.services.PostSourceAPI;
 import com.interview.task.services.RefreshDataService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,20 +11,12 @@ import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/posts")
+@AllArgsConstructor
 public class PostController {
 
-    private PostService postService;
+    private final PostService postService;
 
-    private PostSourceAPI postSourceAPI;
-    
-    private RefreshDataService refreshDataService;
-
-    @Autowired
-    public PostController(PostService postService, PostSourceAPI postSourceAPI, RefreshDataService refreshDataService) {
-        this.postService = postService;
-        this.postSourceAPI = postSourceAPI;
-        this.refreshDataService = refreshDataService;
-    }
+    private final RefreshDataService refreshDataService;
 
     @GetMapping()
     public List<PostDto> getPosts(){

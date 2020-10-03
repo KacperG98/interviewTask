@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +34,7 @@ class PostServiceTest {
     @Test
     void getPostsTest() {
         //given
-        when(postRepository.findAll()).thenReturn(prepareMockData());
+        when(postRepository.finaAllVisible()).thenReturn(prepareMockData());
         //when
         List<Post> posts = postService.getPosts();
         //then
@@ -58,6 +59,31 @@ class PostServiceTest {
         Post post = postService.editPost(postExample);
 
         Assert.assertNotEquals(post, postExample);
+    }
+
+    @Test
+    void editPostShouldFailWhenPostNotExist() {
+        Post postExample = new Post(2,3, "Timmy adventure", "travel is awesome");
+        when(postRepository.findById(any())).thenReturn(Optional.empty());
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            postService.editPost(postExample);
+        });
+        Assert.assertEquals(exception.getMessage(), "Can't edit non existing post" );
+    }
+
+
+    @Test
+    void deletePostTest() {
+        Post postExample = new Post(2,3, "Timmy adventure", "travel is awesome");
+        when(postRepository.findById(any())).thenReturn(Optional.of(postExample));
+        postService.deletePost(3);
+    }
+
+    @Test
+    void deletePostShouldNotFailWhenPostNotExist() {
+        when(postRepository.findById(any())).thenReturn(Optional.empty());
+        postService.deletePost(3);
+
     }
 
 
