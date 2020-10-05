@@ -1,6 +1,6 @@
 package com.interview.task.services;
 
-import com.interview.task.DTO.PostDto;
+import com.interview.task.controllers.PostDto;
 import com.interview.task.models.Post;
 import com.interview.task.models.PostStatus;
 import com.interview.task.repositories.PostRepository;
