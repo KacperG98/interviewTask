@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 public class PostSourceAPI {
-    @Value("another.uri")
+    @Value("${another.uri}")
     private String uri;
     @Autowired
     private RestTemplate restTemplate;
@@ -30,7 +30,7 @@ public class PostSourceAPI {
 
     public List<PostDto> getData(){
         ResponseEntity<List<PostDto>> res = restTemplate
-                .exchange(URLEncoder.encode(uri), HttpMethod.GET,
+                .exchange(uri, HttpMethod.GET,
                 HttpEntity.EMPTY, new ParameterizedTypeReference<List<PostDto>>() {});
 
         return res.getBody();

@@ -2,9 +2,12 @@ package com.interview.task.controllers;
 
 import com.interview.task.models.Post;
 import com.interview.task.models.PostStatus;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
-@Value
+@Data
+@NoArgsConstructor
 public class PostDto {
     int userId;
     int id;
